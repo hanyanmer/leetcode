@@ -1,0 +1,41 @@
+public class QuickSort {
+    private static int getIndex(int[] arr , int low ,int high){
+        //基准数据默认取low所在的元素值，如果是其他的值要和arr[low]进行交换，然后从high出开始运行
+        int pivot = arr[low];
+        while(low < high){
+            //当high所在元素>=pivot数据时，向左移动high指针
+            while(low<high &&arr[high] >= pivot)
+                high--;
+            //high所在元素<pivot数据，将其值赋值给low
+            arr[low]=arr[high];
+            //当low所在元素<=pivot数据，向右移动low指针
+            while(low<high &&arr[low] <= pivot)
+                low++;
+            //low所在元素>pivot数据，将其值赋值给high
+            arr[high]=arr[low];
+
+        }
+        //找到了pivot所在的索引位置了，这个位置将所有的数据分成三个部分，<pivot ,=pivot ,>pivot
+        arr[low]=pivot;
+        return low;
+    }
+    public static void quickSort(int [] arr,int low, int high ){
+
+        if(low<high){
+            //找寻pivot所在的位置
+            int dex = getIndex(arr,low,high);
+            //将分成两组后的继续调用快速排序
+            quickSort(arr,0,dex-1);
+            quickSort(arr,dex+1,high);
+        }
+    }
+
+    public static void main(String[] args) {
+        int [] arr = {2,3,1,5,6};
+
+        QuickSort q = new QuickSort();
+        q.quickSort(arr,0,arr.length-1);
+        for(int i:arr)
+            System.out.print(i+" ");
+    }
+}
