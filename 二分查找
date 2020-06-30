@@ -45,7 +45,7 @@ public class BinarySearch {
             if(arr[mid]==target)
                 left = mid+1 ;  //这个地方注意，是向右趋近
             else if(arr[mid]<target)
-                left = mid-1;  //没变，为了保持左闭右开
+                left = mid+1;  //没变，为了保持左闭右开
             else if(arr[mid]>target)
                 right =mid;  //没变，为了保持左闭右开
         }
