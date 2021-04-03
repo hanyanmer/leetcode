@@ -50,4 +50,4 @@ console.timeEnd('归并排序消耗时间') //停止计时，输入时间
 
 
 
-![mergesort](C:\Users\hanyanmer\Desktop\mergesort.gif)
+![mergesort](D:\appContent\leetcode\leetcode\mergesort.gif)
