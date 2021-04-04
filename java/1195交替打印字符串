@@ -1,0 +1,80 @@
+多线程知识：对于多线程的创建使用Runnable方式优点
+1：避免了单继承Thread的局限性 
+2：增强了程序扩展性，降低耦合将设置线程任务（重写run方法）和启动新线程（创建Thread类对象，调用start方法）分离
+线程安全：多个线程访问共享数据时，会产生线程安全问题
+解决线程安全问题的方式：
+1.同步代码块
+格式：synchronized(同步锁){//需要同步使用的代码}
+注：同步锁可以使用任意对象；和run()方法平级；必须保证多个线程使用同一个同步锁（对象锁）
+2.同步方法（将需要同步的代码提取出写在方法中 使用synchronized 修饰方法）
+3.锁机制（Java提供的 Lock lo = new ReentrantLock(); 调用lo.lock() 和lo.unlock()两个方法）
+/**
+ * 多线程
+ * n%3==0 fizz
+ * n%5==0 buzz
+ * n%3==0 && n%5==0 fizzbuzz
+ *多个线程对一个任务进行操作，使用对象锁 保证线程安全
+ */
+public class FizzBuzz {
+    private int n ;
+    private int i;
+    //锁对象
+    Object ob = new Object();
+
+
+    public FizzBuzz(int n){
+        this.n =n;
+        this.i = 1;
+    }
+
+
+    // printFizz.run() outputs "fizz".
+    public void fizz(Runnable printFizz ) throws InterruptedException {
+        while(i<=n){
+            synchronized(ob){
+                while(i<=n && i%3==0 &&i%5!=0){
+                    printFizz.run();
+                    i++;
+                }
+            }
+        }
+    }
+
+    // printBuzz.run() outputs "buzz".
+    public void buzz(Runnable printBuzz) throws InterruptedException {
+        while(i<=n){
+            synchronized(ob){
+                while(i<=n && i%3!=0 &&i%5==0){
+                    printBuzz.run();
+                    i++;
+                }
+            }
+        }
+    }
+
+    // printFizzBuzz.run() outputs "fizzbuzz".
+    public void fizzbuzz(Runnable printFizzBuzz) throws InterruptedException {
+        while(i<=n){
+            synchronized(ob){
+                while(i<=n && i%3==0 &&i%5==0){
+                    printFizzBuzz.run();
+                    i++;
+                }
+            }
+        }
+
+    }
+
+    // printNumber.accept(x) outputs "x", where x is an integer.
+    public void number(IntConsumer printNumber) throws InterruptedException {
+
+        while(i<=n){
+            synchronized(ob){
+                while(i<=n && i%3!=0 &&i%5!=0){
+                    printNumber.accept(i);
+                    i++;
+                }
+            }
+        }
+    }
+}
